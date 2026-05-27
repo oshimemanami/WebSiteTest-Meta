@@ -1,0 +1,128 @@
+/* =============================
+   CSS変数・リセット
+============================= */
+:root {
+  --color-primary: #c8002d;
+  --color-gold: #b8960a;
+  --color-bg: #fff;
+  --color-text: #333;
+
+  /* スライダー専用変数 */
+  --slider-dot-color: #ccc;
+  --slider-dot-active: #c8002d;
+  --slider-transition: 0.35s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  max-width: 640px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* =============================
+   ヒーローセクション
+============================= */
+.section-hero {
+  width: 100%;
+}
+
+.hero-img {
+  width: 100%;
+  display: block;
+}
+
+/* =============================
+   メタ画像セクション
+============================= */
+.section-meta {
+  width: 100%;
+}
+
+.meta-img {
+  width: 100%;
+  display: block;
+}
+
+/* =============================
+   スライダー共通
+============================= */
+.section-slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* スライダーラッパー（タッチイベントはここに付ける） */
+.slider-wrap {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+}
+
+.slider-wrap:active {
+  cursor: grabbing;
+}
+
+/* スライダートラック */
+.slider-track {
+  display: flex;
+  will-change: transform;
+}
+
+/* スライド１枚 */
+.slider-track .slide-item {
+  flex: 0 0 100%;
+  width: 100%;
+}
+
+/* スライド内の画像（ダミーCSSと干渉しないよう専用クラス） */
+.slider-track .slide-item .slide-item-img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* =============================
+   ドットインジケーター
+============================= */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  background: #fff;
+}
+
+.slider-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--slider-dot-color);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+.slider-dots .dot.is-active {
+  background: var(--slider-dot-active);
+}
+
+/* =============================
+   スマホ対応（念のため）
+============================= */
+@media (max-width: 640px) {
+  body {
+    max-width: 100%;
+  }
+}
