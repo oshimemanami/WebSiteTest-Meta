@@ -146,7 +146,7 @@ body {
 ============================= */
 .btn-kakaku {
   position: absolute;
-  top: -70px;
+  top: 70px;
   right: 16px;
   width: 64px;
   height: 64px;
