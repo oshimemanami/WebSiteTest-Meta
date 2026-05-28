@@ -2,71 +2,58 @@
    スライダー設定
 ============================= */
 
-// スライダーAの画像リスト
+// スライダーAの画像リスト（jpgからpngへ）
 const sliderAImages = [
-  { src: 'images/slideA-01.jpg', alt: 'スライドA 1枚目' },
-  { src: 'images/slideA-02.jpg', alt: 'スライドA 2枚目' },
-  { src: 'images/slideA-03.jpg', alt: 'スライドA 3枚目' },
-  { src: 'images/slideA-04.jpg', alt: 'スライドA 4枚目' },
-  { src: 'images/slideA-05.jpg', alt: 'スライドA 5枚目' },
-  { src: 'images/slideA-06.jpg', alt: 'スライドA 6枚目' },
-  { src: 'images/slideA-07.jpg', alt: 'スライドA 7枚目' },
-  { src: 'images/slideA-08.jpg', alt: 'スライドA 8枚目' },
+  { src: 'images/slideA-01.png', alt: 'スライドA 1枚目' },
+  { src: 'images/slideA-02.png', alt: 'スライドA 2枚目' },
+  { src: 'images/slideA-03.png', alt: 'スライドA 3枚目' },
+  { src: 'images/slideA-04.png', alt: 'スライドA 4枚目' },
+  { src: 'images/slideA-05.png', alt: 'スライドA 5枚目' },
+  { src: 'images/slideA-06.png', alt: 'スライドA 6枚目' },
+  { src: 'images/slideA-07.png', alt: 'スライドA 7枚目' },
+  { src: 'images/slideA-08.png', alt: 'スライドA 8枚目' },
 ];
 
-// スライダーBの画像リスト
+// スライダーBの画像リスト（jpgからpngへ）
 const sliderBImages = [
-  { src: 'images/slideB-01.jpg', alt: 'スライドB 1枚目' },
-  { src: 'images/slideB-02.jpg', alt: 'スライドB 2枚目' },
-  { src: 'images/slideB-03.jpg', alt: 'スライドB 3枚目' },
-  { src: 'images/slideB-04.jpg', alt: 'スライドB 4枚目' },
-  { src: 'images/slideB-05.jpg', alt: 'スライドB 5枚目' },
-  { src: 'images/slideB-06.jpg', alt: 'スライドB 6枚目' },
+  { src: 'images/slideB-01.png', alt: 'スライドB 1枚目' },
+  { src: 'images/slideB-02.png', alt: 'スライドB 2枚目' },
+  { src: 'images/slideB-03.png', alt: 'スライドB 3枚目' },
+  { src: 'images/slideB-04.png', alt: 'スライドB 4枚目' },
+  { src: 'images/slideB-05.png', alt: 'スライドB 5枚目' },
+  { src: 'images/slideB-06.png', alt: 'スライドB 6枚目' },
 ];
 
 /* =============================
    スライダー初期化関数
 ============================= */
-
-/**
- * initSlider
- * @param {string} wrapId    - slider-wrap の id
- * @param {string} trackId   - slider-track の id
- * @param {string} dotsId    - slider-dots の id
- * @param {Array}  images    - { src, alt } の配列
- */
-function initSlider(wrapId, trackId, dotsId, images) {
-  const wrap  = document.getElementById(wrapId);
-  const track = document.getElementById(trackId);
-  const dotsEl = document.getElementById(dotsId);
+function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
+  const wrap    = document.getElementById(wrapId);
+  const track   = document.getElementById(trackId);
+  const dotsEl  = document.getElementById(dotsId);
+  const prevBtn = document.getElementById(prevBtnId);
+  const nextBtn = document.getElementById(nextBtnId);
 
   if (!wrap || !track || !dotsEl) return;
 
   const total = images.length;
   if (total === 0) return;
 
-  // --- スライド生成（前後にクローン追加） ---
-  // 構成: [clone of last] [0] [1] ... [total-1] [clone of first]
-  const allImages = [
-    images[total - 1],
-    ...images,
-    images[0],
-  ];
+  // クローンループ構成: [last clone] [0..n-1] [first clone]
+  const allImages = [images[total - 1], ...images, images[0]];
 
   allImages.forEach((img) => {
     const item = document.createElement('div');
     item.className = 'slide-item';
-
     const picture = document.createElement('img');
     picture.src = img.src;
     picture.alt = img.alt;
     picture.className = 'slide-item-img';
-
     item.appendChild(picture);
     track.appendChild(item);
   });
 
-  // --- ドット生成 ---
+  // ドット生成
   for (let i = 0; i < total; i++) {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' is-active' : '');
@@ -74,51 +61,39 @@ function initSlider(wrapId, trackId, dotsId, images) {
     dotsEl.appendChild(dot);
   }
 
-  // --- 状態管理 ---
-  let currentIndex = 0; // 実データの index（0 〜 total-1）
-  const SWIPE_THRESHOLD = 0.2; // スワイプ閾値 20%
+  let currentIndex = 0;
+  const SWIPE_THRESHOLD = 0.2;
 
-  // --- トラック移動（アニメーションあり） ---
   function moveToReal(index, animate = true) {
-    const trackIndex = index + 1; // クローン分オフセット
-    if (animate) {
-      track.style.transition = `transform var(--slider-transition)`;
-    } else {
-      track.style.transition = 'none';
-    }
+    const trackIndex = index + 1;
+    track.style.transition = animate ? 'transform var(--slider-transition)' : 'none';
     track.style.transform = `translateX(-${trackIndex * 100}%)`;
   }
 
-  // --- ドット更新 ---
   function updateDots(index) {
-    const dots = dotsEl.querySelectorAll('.dot');
-    dots.forEach((d, i) => {
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => {
       d.classList.toggle('is-active', i === index);
     });
   }
 
-  // --- 指定インデックスへ移動 ---
   function goTo(index) {
     currentIndex = index;
     moveToReal(currentIndex, true);
     updateDots(currentIndex);
   }
 
-  // --- 次へ ---
   function next() {
     currentIndex++;
     moveToReal(currentIndex, true);
     updateDots(currentIndex < total ? currentIndex : 0);
   }
 
-  // --- 前へ ---
   function prev() {
     currentIndex--;
     moveToReal(currentIndex, true);
     updateDots(currentIndex >= 0 ? currentIndex : total - 1);
   }
 
-  // --- トランジション終了後のループ瞬間移動 ---
   track.addEventListener('transitionend', () => {
     if (currentIndex >= total) {
       currentIndex = 0;
@@ -129,14 +104,14 @@ function initSlider(wrapId, trackId, dotsId, images) {
     }
   });
 
-  // --- 初期位置セット ---
   moveToReal(0, false);
 
-  // --- タッチイベント（wrapに付ける） ---
-  let touchStartX = 0;
-  let touchCurrentX = 0;
-  let isDragging = false;
-  let baseTranslate = 0;
+  // 前後ボタン
+  if (prevBtn) prevBtn.addEventListener('click', prev);
+  if (nextBtn) nextBtn.addEventListener('click', next);
+
+  // タッチイベント（wrapに付ける）
+  let touchStartX = 0, touchCurrentX = 0, isDragging = false, baseTranslate = 0;
 
   wrap.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
@@ -149,33 +124,22 @@ function initSlider(wrapId, trackId, dotsId, images) {
   wrap.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     touchCurrentX = e.touches[0].clientX;
-    const diff = touchCurrentX - touchStartX;
-    const wrapWidth = wrap.offsetWidth;
-    const diffPercent = (diff / wrapWidth) * 100;
+    const diffPercent = ((touchCurrentX - touchStartX) / wrap.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
   }, { passive: true });
 
   wrap.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
-
     const diff = touchCurrentX - touchStartX;
-    const wrapWidth = wrap.offsetWidth;
-    const threshold = wrapWidth * SWIPE_THRESHOLD;
-
-    if (diff < -threshold) {
-      next();
-    } else if (diff > threshold) {
-      prev();
-    } else {
-      // 閾値未満はリセット
-      moveToReal(currentIndex, true);
-    }
+    const threshold = wrap.offsetWidth * SWIPE_THRESHOLD;
+    if (diff < -threshold) next();
+    else if (diff > threshold) prev();
+    else moveToReal(currentIndex, true);
   });
 
-  // マウスドラッグ対応（PC確認用）
-  let mouseStartX = 0;
-  let isMouseDragging = false;
+  // マウスドラッグ（PC確認用）
+  let mouseStartX = 0, isMouseDragging = false;
 
   wrap.addEventListener('mousedown', (e) => {
     mouseStartX = e.clientX;
@@ -186,27 +150,18 @@ function initSlider(wrapId, trackId, dotsId, images) {
 
   wrap.addEventListener('mousemove', (e) => {
     if (!isMouseDragging) return;
-    const diff = e.clientX - mouseStartX;
-    const wrapWidth = wrap.offsetWidth;
-    const diffPercent = (diff / wrapWidth) * 100;
+    const diffPercent = ((e.clientX - mouseStartX) / wrap.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
   });
 
   wrap.addEventListener('mouseup', (e) => {
     if (!isMouseDragging) return;
     isMouseDragging = false;
-
     const diff = e.clientX - mouseStartX;
-    const wrapWidth = wrap.offsetWidth;
-    const threshold = wrapWidth * SWIPE_THRESHOLD;
-
-    if (diff < -threshold) {
-      next();
-    } else if (diff > threshold) {
-      prev();
-    } else {
-      moveToReal(currentIndex, true);
-    }
+    const threshold = wrap.offsetWidth * SWIPE_THRESHOLD;
+    if (diff < -threshold) next();
+    else if (diff > threshold) prev();
+    else moveToReal(currentIndex, true);
   });
 
   wrap.addEventListener('mouseleave', () => {
@@ -220,55 +175,103 @@ function initSlider(wrapId, trackId, dotsId, images) {
 /* =============================
    価格表モーダル開閉
 ============================= */
-function initKakakuModal() {
-  const btn      = document.getElementById('btnKakaku');
-  const overlay  = document.getElementById('kakakuOverlay');
-  const sheet    = document.getElementById('kakakuSheet');
-  const closeBtn = document.getElementById('kakakuClose');
-  const footer   = document.getElementById('fixedFooter');
-
-  if (!btn || !overlay || !sheet) return;
-
-  // フッターの高さを取得してボタン位置を設定
-  function positionBtn() {
-    const footerH = footer ? footer.offsetHeight : 60;
-    btn.style.bottom = (footerH + 12) + 'px';
-  }
-  positionBtn();
-  window.addEventListener('resize', positionBtn);
-
-  function openModal() {
-    overlay.style.display = 'block';
-    document.body.classList.add('kakaku-open');
-    // 1フレーム後にアニメーション開始
+function openKakakuModal() {
+  const overlay = document.getElementById('kakakuOverlay');
+  const sheet   = document.getElementById('kakakuSheet');
+  if (!overlay || !sheet) return;
+  overlay.style.display = 'block';
+  document.body.classList.add('kakaku-open');
+  requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        overlay.classList.add('is-active');
-        sheet.classList.add('is-active');
-      });
+      overlay.classList.add('is-active');
+      sheet.classList.add('is-active');
     });
+  });
+}
+
+function closeKakakuModal() {
+  const overlay = document.getElementById('kakakuOverlay');
+  const sheet   = document.getElementById('kakakuSheet');
+  if (!overlay || !sheet) return;
+  overlay.classList.remove('is-active');
+  sheet.classList.remove('is-active');
+  document.body.classList.remove('kakaku-open');
+  setTimeout(() => { overlay.style.display = 'none'; }, 400);
+}
+
+function initKakakuModal() {
+  const overlay  = document.getElementById('kakakuOverlay');
+  const closeBtn = document.getElementById('kakakuClose');
+
+  // 価格表を開くボタン（複数箇所）
+  ['btnKakaku04b', 'btnKakaku06b', 'btnKakaku14b'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openKakakuModal();
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeKakakuModal);
+  if (overlay)  overlay.addEventListener('click', closeKakakuModal);
+}
+
+/* =============================
+   FAQ アコーディオン（meta_13a/b）
+============================= */
+function initFaqAccordion() {
+  const question = document.getElementById('faqQuestion');
+  const answer   = document.getElementById('faqAnswer');
+  const arrow    = document.getElementById('faqArrow');
+  if (!question || !answer) return;
+
+  question.addEventListener('click', () => {
+    const isOpen = answer.classList.contains('is-open');
+    answer.classList.toggle('is-open', !isOpen);
+    if (arrow) arrow.classList.toggle('is-open', !isOpen);
+  });
+}
+
+/* =============================
+   固定フッター スクロールリンク
+============================= */
+function initFooterNav() {
+  const footerImg = document.getElementById('footerImg');
+  if (!footerImg) return;
+
+  // 画像読み込み後にエリア座標を計算
+  function setupMap() {
+    const w = footerImg.offsetWidth;
+    const h = footerImg.offsetHeight;
+    const q = Math.floor(w / 4); // 4分割
+
+    // 各エリアの座標（左から：3つのコース、仕上がりタイプ、事例紹介、お問い合わせ）
+    document.getElementById('areaCorner').coords = `${q * 0},0,${q * 1},${h}`;
+    document.getElementById('areaFinish').coords = `${q * 1},0,${q * 2},${h}`;
+    document.getElementById('areaCase').coords   = `${q * 2},0,${q * 3},${h}`;
   }
 
-  function closeModal() {
-    overlay.classList.remove('is-active');
-    sheet.classList.remove('is-active');
-    document.body.classList.remove('kakaku-open');
-    // トランジション終了後に非表示
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 400);
-  }
+  if (footerImg.complete) setupMap();
+  else footerImg.addEventListener('load', setupMap);
+  window.addEventListener('resize', setupMap);
 
-  btn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', closeModal);
+  // スムーススクロール
+  document.querySelectorAll('map area[href^="#"]').forEach(area => {
+    area.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(area.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
 }
 
 /* =============================
    DOM読み込み後に初期化
 ============================= */
 document.addEventListener('DOMContentLoaded', () => {
-  initSlider('sliderA', 'sliderA-track', 'sliderA-dots', sliderAImages);
-  initSlider('sliderB', 'sliderB-track', 'sliderB-dots', sliderBImages);
+  initSlider('sliderA', 'sliderA-track', 'sliderA-dots', 'sliderA-prev', 'sliderA-next', sliderAImages);
+  initSlider('sliderB', 'sliderB-track', 'sliderB-dots', 'sliderB-prev', 'sliderB-next', sliderBImages);
   initKakakuModal();
+  initFaqAccordion();
+  initFooterNav();
 });
