@@ -90,9 +90,8 @@ body {
 
 .meta-gif-overlay {
   position: absolute;
-  top: 650px;
-  left: 5%;
-  width: 80%;
+  top: 680px;
+  width: 85%;
   pointer-events: none;
 }
 
