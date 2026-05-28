@@ -37,7 +37,11 @@ body {
   width: 100%;
 }
 
-.hero-img,
+.hero-img {
+  width: 100%;
+  display: block;
+}
+
 .meta-img {
   width: 100%;
   display: block;
@@ -86,9 +90,9 @@ body {
 
 .meta-gif-overlay {
   position: absolute;
-  top: 300px;
-  left: 0;
-  width: 100%;
+  top: 600px;
+  left: 5%;
+  width: 90%;
   pointer-events: none;
 }
 
@@ -143,6 +147,21 @@ body {
 .section-slider {
   width: 100%;
   position: relative;
+  margin-top: 0;
+}
+
+.section-hero {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.section-hero + .section-hero {
+  margin-top: 0;
+}
+
+.section-hero + .section-slider,
+.section-meta + .section-slider {
+  margin-top: 0;
 }
 
 /* 枠線付きアウター */
