@@ -12,6 +12,15 @@
   --slider-dot-active: #c8002d;
   --slider-transition: 0.35s ease;
   --slider-border: 1px solid #ccc;
+
+  /* =============================
+     余白変数（ここを変えると一括変更）
+  ============================= */
+  --space-5:   5px;
+  --space-10:  10px;
+  --space-20:  20px;
+  --space-200: 200px;
+  --space-500: 500px;
 }
 
 *, *::before, *::after {
@@ -45,7 +54,7 @@ body {
 .meta-img {
   width: 100%;
   display: block;
-  margin-bottom: 50px;
+  margin-bottom: 0;
 }
 
 /* 最後の子はmargin不要 */
@@ -54,10 +63,40 @@ body {
   margin-bottom: 0;
 }
 
+/* =============================
+   余白ユーティリティクラス
+   （変えたい時は:rootの変数を編集）
+============================= */
+.sp-0   { margin-bottom: 0; }
+.sp-5   { margin-bottom: var(--space-5); }
+.sp-10  { margin-bottom: var(--space-10); }
+.sp-20  { margin-bottom: var(--space-20); }
+.sp-200 { margin-bottom: var(--space-200); }
+.sp-500 { margin-bottom: var(--space-500); }
+
 .meta-link {
   display: block;
   width: 100%;
 }
+
+/* sp-*クラスをimg以外の要素にも適用 */
+.btn-row.sp-0,   .meta-link.sp-0,   .section-slider.sp-0,
+.meta-gif-wrap.sp-0   { margin-bottom: 0; }
+
+.btn-row.sp-5,   .meta-link.sp-5,   .section-slider.sp-5,
+.meta-gif-wrap.sp-5   { margin-bottom: var(--space-5); }
+
+.btn-row.sp-10,  .meta-link.sp-10,  .section-slider.sp-10,
+.meta-gif-wrap.sp-10  { margin-bottom: var(--space-10); }
+
+.btn-row.sp-20,  .meta-link.sp-20,  .section-slider.sp-20,
+.meta-gif-wrap.sp-20  { margin-bottom: var(--space-20); }
+
+.btn-row.sp-200, .meta-link.sp-200, .section-slider.sp-200,
+.meta-gif-wrap.sp-200 { margin-bottom: var(--space-200); }
+
+.btn-row.sp-500, .meta-link.sp-500, .section-slider.sp-500,
+.meta-gif-wrap.sp-500 { margin-bottom: var(--space-500); }
 
 /* =============================
    ボタン横並び（meta_04a・04b）
@@ -176,7 +215,7 @@ body {
   position: relative;
   width: 100%;
   border: 1px solid #000;
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
 }
 
