@@ -206,9 +206,9 @@ body {
 
 .meta-gif-overlay {
   position: absolute;
-  left: 15%;
-  top: 370px;
-  width: 85%;
+  left: 8.5%;
+  top: 446px;
+  width: 83%;
   pointer-events: none;
 }
 
