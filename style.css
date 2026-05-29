@@ -16,11 +16,11 @@
   /* =============================
      余白変数（ここを変えると一括変更）
   ============================= */
-  --space-5:   5px;
+  --space-2:   2px;
   --space-10:  10px;
-  --space-20:  20px;
-  --space-200: 200px;
-  --space-500: 500px;
+  --space-40:  40px;
+  --space-100: 100px;
+  --space-250: 250px;
 }
 
 *, *::before, *::after {
@@ -68,11 +68,11 @@ body {
    （変えたい時は:rootの変数を編集）
 ============================= */
 .sp-0   { margin-bottom: 0; }
-.sp-5   { margin-bottom: var(--space-5); }
+.sp-2   { margin-bottom: var(--space-2); }
 .sp-10  { margin-bottom: var(--space-10); }
-.sp-20  { margin-bottom: var(--space-20); }
-.sp-200 { margin-bottom: var(--space-200); }
-.sp-500 { margin-bottom: var(--space-500); }
+.sp-40  { margin-bottom: var(--space-40); }
+.sp-100 { margin-bottom: var(--space-100); }
+.sp-250 { margin-bottom: var(--space-250); }
 
 .meta-link {
   display: block;
@@ -81,22 +81,73 @@ body {
 
 /* sp-*クラスをimg以外の要素にも適用 */
 .btn-row.sp-0,   .meta-link.sp-0,   .section-slider.sp-0,
-.meta-gif-wrap.sp-0   { margin-bottom: 0; }
+.meta-gif-wrap.sp-0,   .faq-accordion.sp-0   { margin-bottom: 0; }
 
-.btn-row.sp-5,   .meta-link.sp-5,   .section-slider.sp-5,
-.meta-gif-wrap.sp-5   { margin-bottom: var(--space-5); }
+.btn-row.sp-2,   .meta-link.sp-2,   .section-slider.sp-2,
+.meta-gif-wrap.sp-2,   .faq-accordion.sp-2   { margin-bottom: var(--space-2); }
 
 .btn-row.sp-10,  .meta-link.sp-10,  .section-slider.sp-10,
-.meta-gif-wrap.sp-10  { margin-bottom: var(--space-10); }
+.meta-gif-wrap.sp-10,  .faq-accordion.sp-10  { margin-bottom: var(--space-10); }
 
-.btn-row.sp-20,  .meta-link.sp-20,  .section-slider.sp-20,
-.meta-gif-wrap.sp-20  { margin-bottom: var(--space-20); }
+.btn-row.sp-40,  .meta-link.sp-40,  .section-slider.sp-40,
+.meta-gif-wrap.sp-40,  .faq-accordion.sp-40  { margin-bottom: var(--space-40); }
 
-.btn-row.sp-200, .meta-link.sp-200, .section-slider.sp-200,
-.meta-gif-wrap.sp-200 { margin-bottom: var(--space-200); }
+.btn-row.sp-100, .meta-link.sp-100, .section-slider.sp-100,
+.meta-gif-wrap.sp-100, .faq-accordion.sp-100 { margin-bottom: var(--space-100); }
 
-.btn-row.sp-500, .meta-link.sp-500, .section-slider.sp-500,
-.meta-gif-wrap.sp-500 { margin-bottom: var(--space-500); }
+.btn-row.sp-250, .meta-link.sp-250, .section-slider.sp-250,
+.meta-gif-wrap.sp-250, .faq-accordion.sp-250 { margin-bottom: var(--space-250); }
+
+/* =============================
+   meta_05a 幅を横並びボタンに合わせて縮小
+============================= */
+.meta-05a-narrow {
+  width: calc(100% - 24px);
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
+/* =============================
+   フッターリンクエリア（meta_15a代替）
+============================= */
+.footer-links {
+  background: #c8002d;
+  padding: 40px 20px 30px;
+  text-align: center;
+}
+
+.footer-link-item {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  letter-spacing: 0.05em;
+}
+
+.footer-link-item:first-child {
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.footer-link-item:active {
+  opacity: 0.7;
+}
+
+.footer-info {
+  margin-top: 36px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: bold;
+}
+
+.footer-copyright {
+  margin-top: 24px;
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
 
 /* =============================
    ボタン横並び（meta_04a・04b）
@@ -106,7 +157,7 @@ body {
   width: 100%;
   gap: 12px;
   padding: 0 12px;
-  margin-bottom: 50px;
+  margin-bottom: 0;
 }
 
 .btn-row-link {
