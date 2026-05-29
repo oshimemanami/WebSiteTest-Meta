@@ -220,7 +220,7 @@ body {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: rgba(100, 100, 100, 0.5);
+  background: rgba(30, 30, 30, 0.6);
   border: none;
   font-size: 14px;
   color: #fff;
@@ -228,13 +228,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
   z-index: 10;
   transition: background 0.2s;
 }
 
 .slider-btn:active {
-  background: rgba(80, 80, 80, 0.7);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .slider-btn-prev {
@@ -255,6 +255,8 @@ body {
   gap: 8px;
   padding: 10px 0;
   background: #fff;
+  position: relative;
+  z-index: 1;
 }
 
 .slider-dots .dot {
