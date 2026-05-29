@@ -228,23 +228,11 @@ function initFaqAccordion() {
 
   question.addEventListener('click', () => {
     const isOpen = answer.classList.contains('is-open');
-
-    if (!isOpen) {
-      // 開く：まず高さを展開してからフェードイン
-      answer.style.maxHeight = answer.scrollHeight + 'px';
-      requestAnimationFrame(() => {
-        answer.classList.add('is-open');
-      });
-      if (arrow) arrow.classList.add('is-open');
-      if (qImg) { qImg.classList.remove('sp-150'); qImg.classList.add('sp-10'); }
-    } else {
-      // 閉じる：フェードアウト後に高さを0に
-      answer.classList.remove('is-open');
-      if (arrow) arrow.classList.remove('is-open');
-      if (qImg) { qImg.classList.remove('sp-10'); qImg.classList.add('sp-150'); }
-      setTimeout(() => {
-        answer.style.maxHeight = '0';
-      }, 350);
+    answer.classList.toggle('is-open', !isOpen);
+    if (arrow) arrow.classList.toggle('is-open', !isOpen);
+    if (qImg) {
+      qImg.classList.toggle('sp-10',  !isOpen);
+      qImg.classList.toggle('sp-150',  isOpen);
     }
   });
 }

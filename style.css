@@ -279,17 +279,20 @@ body {
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* 開く：フェードイン */
+/* 開く：上から展開・閉じる：上へ吸い込まれる */
 .faq-answer {
   overflow: hidden;
-  max-height: 0;
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transform: scaleY(0);
+  transform-origin: top center;
+  max-height: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
 .faq-answer.is-open {
-  max-height: 1000px;
   opacity: 1;
+  transform: scaleY(1);
+  max-height: 1000px;
 }
 
 /* =============================
