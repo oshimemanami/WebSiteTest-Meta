@@ -487,6 +487,18 @@ body {
   display: block;
 }
 
+.kakaku-map-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.kakaku-area {
+  position: absolute;
+  display: block;
+  background: transparent;
+  -webkit-tap-highlight-color: rgba(0,0,0,0.08);
+}
+
 body.kakaku-open {
   overflow: hidden;
 }
