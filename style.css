@@ -129,11 +129,20 @@ body {
 
 /* section-metaにもsp-*を適用 */
 .section-meta.sp-150 { margin-top: var(--space-150); }
-.meta-05a-narrow {
+.meta-05a-narrow,
+.meta-narrow {
+  display: block;
   width: calc(100% - 24px);
   margin-left: 12px;
   margin-right: 12px;
 }
+
+.meta-narrow img,
+.meta-05a-narrow img {
+  width: 100%;
+  display: block;
+}
+
 
 /* =============================
    フッターリンクエリア（meta_15a代替）
