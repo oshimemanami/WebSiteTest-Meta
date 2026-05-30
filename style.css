@@ -128,17 +128,20 @@ body {
 }
 
 /* section-metaにもsp-*を適用 */
+.section-meta.sp-top-150 { margin-top: var(--space-150); }
 .section-meta.sp-150 { margin-top: var(--space-150); }
+
 .meta-05a-narrow,
 .meta-narrow {
   display: block;
   width: calc(100% - 24px);
   margin-left: 12px;
   margin-right: 12px;
+  box-sizing: border-box;
 }
 
-.meta-narrow img,
-.meta-05a-narrow img {
+.meta-narrow > img,
+.meta-05a-narrow > img {
   width: 100%;
   display: block;
 }

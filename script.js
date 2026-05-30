@@ -270,13 +270,31 @@ function initFooterNav() {
   else footerImg.addEventListener('load', setupMap);
   window.addEventListener('resize', setupMap);
 
-  // スムーススクロール
+  // スムーススクロール（mapエリア）
   document.querySelectorAll('map area[href^="#"]').forEach(area => {
     area.addEventListener('click', (e) => {
       e.preventDefault();
       const target = document.querySelector(area.getAttribute('href'));
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
+  });
+
+  // iOS Safari対応：画像タップ位置からエリアを判定してスクロール
+  footerImg.addEventListener('click', (e) => {
+    const rect = footerImg.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const w = footerImg.offsetWidth;
+    const q = w / 4;
+    let targetId;
+    if      (x < q)     targetId = '#section-meta06';
+    else if (x < q * 2) targetId = '#section-meta08';
+    else if (x < q * 3) targetId = '#section-meta09';
+    else                targetId = null;
+    if (targetId) {
+      e.preventDefault();
+      const target = document.querySelector(targetId);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
   });
 }
 
