@@ -204,7 +204,7 @@ function initKakakuModal() {
   const closeBtn = document.getElementById('kakakuClose');
 
   // 価格表を開くボタン（複数箇所）
-  ['btnKakaku04b', 'btnKakaku06b', 'btnKakaku14b'].forEach(id => {
+  ['btnKakaku04b', 'btnKakaku06b', 'btnKakaku06b2', 'btnKakaku14b'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.addEventListener('click', (e) => {
       e.preventDefault();
