@@ -226,16 +226,18 @@ function initFaqAccordion() {
   const qImg     = document.getElementById('meta13aImg');
   if (!question || !answer) return;
 
-  question.addEventListener('click', () => {
-    const isOpen = answer.classList.contains('is-open');
+  let isOpen = false;
 
+  question.addEventListener('click', () => {
     if (!isOpen) {
       // 開く
-      answer.classList.add('is-open');
+      isOpen = true;
       const h = answer.scrollHeight;
+      answer.style.transition = 'none';
       answer.style.height = '0px';
       answer.style.opacity = '0';
       requestAnimationFrame(() => {
+        answer.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
         requestAnimationFrame(() => {
           answer.style.height = h + 'px';
           answer.style.opacity = '1';
@@ -244,11 +246,10 @@ function initFaqAccordion() {
       if (arrow) arrow.classList.add('is-open');
       if (qImg) { qImg.classList.remove('sp-150'); qImg.classList.add('sp-10'); }
     } else {
-      // 閉じる：heightを現在値で固定してから0へ（下に落ちるのを防ぐ）
-      const h = answer.offsetHeight;
-      answer.style.height = h + 'px';
-      answer.style.opacity = '1';
-      answer.classList.remove('is-open');
+      // 閉じる：今の高さから0へ
+      isOpen = false;
+      answer.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
+      answer.style.height = answer.offsetHeight + 'px';
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           answer.style.height = '0px';
