@@ -31,6 +31,10 @@
   padding: 0;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
@@ -123,8 +127,7 @@ body {
   bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80vw;
-  max-width: 512px;
+  width: 110%;
   display: block;
 }
 
@@ -231,15 +234,15 @@ body {
   position: absolute;
   left: 8.9%;
   top: 17.7%;
-  width: 82%;
+  width: 82.5%;
   pointer-events: none;
 }
 
 .meta-gif-overlay-2 {
   position: absolute;
   left: 8.9%;
-  top: 48.4%;
-  width: 82%;
+  top: 48.37%;
+  width: 82.5%;
   pointer-events: none;
 }
 
@@ -247,7 +250,7 @@ body {
   position: absolute;
   left: 8.9%;
   top: 78.2%;
-  width: 82%;
+  width: 82.5%;
   pointer-events: none;
 }
 
