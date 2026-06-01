@@ -229,38 +229,12 @@ function initFaqAccordion() {
   let isOpen = false;
 
   question.addEventListener('click', () => {
-    if (!isOpen) {
-      // 開く
-      isOpen = true;
-      const h = answer.scrollHeight;
-      answer.style.transition = 'none';
-      answer.style.height = '0px';
-      answer.style.opacity = '0';
-      requestAnimationFrame(() => {
-        answer.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
-        requestAnimationFrame(() => {
-          answer.style.height = h + 'px';
-          answer.style.opacity = '1';
-        });
-      });
-      if (arrow) arrow.classList.add('is-open');
-      if (qImg) { qImg.classList.remove('sp-150'); qImg.classList.add('sp-10'); }
-    } else {
-      // 閉じる：強制リフロー後にtransition開始
-      isOpen = false;
-      const h = answer.offsetHeight;
-      answer.style.transition = 'none';
-      answer.style.height = h + 'px';
-      answer.style.opacity = '1';
-      // 強制リフロー
-      answer.offsetHeight; // eslint-disable-line no-unused-expressions
-      answer.style.transition = 'height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
-      requestAnimationFrame(() => {
-        answer.style.height = '0px';
-        answer.style.opacity = '0';
-      });
-      if (arrow) arrow.classList.remove('is-open');
-      if (qImg) { qImg.classList.remove('sp-10'); qImg.classList.add('sp-150'); }
+    isOpen = !isOpen;
+    answer.style.display = isOpen ? 'block' : 'none';
+    if (arrow) arrow.classList.toggle('is-open', isOpen);
+    if (qImg) {
+      qImg.classList.toggle('sp-10',  isOpen);
+      qImg.classList.toggle('sp-150', !isOpen);
     }
   });
 }
