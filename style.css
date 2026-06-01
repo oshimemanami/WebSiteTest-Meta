@@ -80,22 +80,28 @@ body {
 
 /* sp-*クラスをimg以外の要素にも適用 */
 .btn-row.sp-0,   .meta-link.sp-0,   .section-slider.sp-0,
-.meta-gif-wrap.sp-0,   .faq-accordion.sp-0   { margin-bottom: 0; }
+.meta-gif-wrap.sp-0,   .faq-accordion.sp-0,   .meta-narrow.sp-0   { margin-bottom: 0; }
 
 .btn-row.sp-2,   .meta-link.sp-2,   .section-slider.sp-2,
-.meta-gif-wrap.sp-2,   .faq-accordion.sp-2   { margin-bottom: var(--space-2); }
+.meta-gif-wrap.sp-2,   .faq-accordion.sp-2,   .meta-narrow.sp-2   { margin-bottom: var(--space-2); }
 
 .btn-row.sp-10,  .meta-link.sp-10,  .section-slider.sp-10,
-.meta-gif-wrap.sp-10,  .faq-accordion.sp-10  { margin-bottom: var(--space-10); }
+.meta-gif-wrap.sp-10,  .faq-accordion.sp-10,  .meta-narrow.sp-10  { margin-bottom: var(--space-10); }
+
+.btn-row.sp-20,  .meta-link.sp-20,  .section-slider.sp-20,
+.meta-gif-wrap.sp-20,  .faq-accordion.sp-20,  .meta-narrow.sp-20  { margin-bottom: var(--space-20); }
 
 .btn-row.sp-40,  .meta-link.sp-40,  .section-slider.sp-40,
-.meta-gif-wrap.sp-40,  .faq-accordion.sp-40  { margin-bottom: var(--space-40); }
+.meta-gif-wrap.sp-40,  .faq-accordion.sp-40,  .meta-narrow.sp-40  { margin-bottom: var(--space-40); }
+
+.btn-row.sp-60,  .meta-link.sp-60,  .section-slider.sp-60,
+.meta-gif-wrap.sp-60,  .faq-accordion.sp-60,  .meta-narrow.sp-60  { margin-bottom: var(--space-60); }
 
 .btn-row.sp-100, .meta-link.sp-100, .section-slider.sp-100,
-.meta-gif-wrap.sp-100, .faq-accordion.sp-100 { margin-bottom: var(--space-100); }
+.meta-gif-wrap.sp-100, .faq-accordion.sp-100, .meta-narrow.sp-100 { margin-bottom: var(--space-100); }
 
 .btn-row.sp-150, .meta-link.sp-150, .section-slider.sp-150,
-.meta-gif-wrap.sp-150, .faq-accordion.sp-150 { margin-bottom: var(--space-150); }
+.meta-gif-wrap.sp-150, .faq-accordion.sp-150, .meta-narrow.sp-150 { margin-bottom: var(--space-150); }
 
 /* =============================
    meta_15 重ね表示
@@ -110,15 +116,11 @@ body {
 
 .meta-15b-link {
   position: absolute;
-  bottom: 10%;
+  bottom: -10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 83%;
-  display: block;
-}
-
-.meta-15b-img {
-  width: 100%;
+  width: 80vw;
+  max-width: 512px;
   display: block;
 }
 
@@ -134,9 +136,9 @@ body {
 .meta-05a-narrow,
 .meta-narrow {
   display: block;
-  width: calc(100% - 24px);
-  margin-left: 12px;
-  margin-right: 12px;
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
   box-sizing: border-box;
 }
 
