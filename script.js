@@ -226,8 +226,13 @@ function initFaqAccordion() {
   const qImg     = document.getElementById('meta13aImg');
   if (!question || !answer) return;
 
+  // 初期状態：高さ0で隠す（display:noneではなくheight:0で管理）
+  answer.style.height   = '0';
+  answer.style.overflow = 'hidden';
+  answer.style.display  = 'block';
+  answer.style.transition = 'height 0.4s ease';
+
   let isOpen = false;
-  let anim = null;
 
   question.addEventListener('click', () => {
     isOpen = !isOpen;
@@ -238,24 +243,10 @@ function initFaqAccordion() {
       qImg.classList.toggle('sp-150', !isOpen);
     }
 
-    if (anim) anim.cancel();
-
     if (isOpen) {
-      // 開く
-      answer.style.display = 'block';
-      const h = answer.scrollHeight;
-      anim = answer.animate(
-        [{ height: '0px', opacity: '0' }, { height: h + 'px', opacity: '1' }],
-        { duration: 400, easing: 'ease', fill: 'forwards' }
-      );
+      answer.style.height = answer.scrollHeight + 'px';
     } else {
-      // 閉じる
-      const h = answer.offsetHeight;
-      anim = answer.animate(
-        [{ height: h + 'px', opacity: '1' }, { height: '0px', opacity: '0' }],
-        { duration: 400, easing: 'ease', fill: 'forwards' }
-      );
-      anim.onfinish = () => { answer.style.display = 'none'; };
+      answer.style.height = '0';
     }
   });
 }
