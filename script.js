@@ -227,14 +227,35 @@ function initFaqAccordion() {
   if (!question || !answer) return;
 
   let isOpen = false;
+  let anim = null;
 
   question.addEventListener('click', () => {
     isOpen = !isOpen;
-    answer.style.display = isOpen ? 'block' : 'none';
+
     if (arrow) arrow.classList.toggle('is-open', isOpen);
     if (qImg) {
       qImg.classList.toggle('sp-10',  isOpen);
       qImg.classList.toggle('sp-150', !isOpen);
+    }
+
+    if (anim) anim.cancel();
+
+    if (isOpen) {
+      // 開く
+      answer.style.display = 'block';
+      const h = answer.scrollHeight;
+      anim = answer.animate(
+        [{ height: '0px', opacity: '0' }, { height: h + 'px', opacity: '1' }],
+        { duration: 400, easing: 'ease', fill: 'forwards' }
+      );
+    } else {
+      // 閉じる
+      const h = answer.offsetHeight;
+      anim = answer.animate(
+        [{ height: h + 'px', opacity: '1' }, { height: '0px', opacity: '0' }],
+        { duration: 400, easing: 'ease', fill: 'forwards' }
+      );
+      anim.onfinish = () => { answer.style.display = 'none'; };
     }
   });
 }

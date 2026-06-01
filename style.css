@@ -292,7 +292,7 @@ body {
   top: 50%;
   width: 2.8%;
   height: auto;
-  transform: translateY(-50%) rotate(0deg);
+  transform: translateY(-50%) rotate(180deg);
   transform-origin: center center;
   transition: transform 0.35s ease;
   pointer-events: none;
@@ -301,12 +301,13 @@ body {
 }
 
 .faq-arrow-img.is-open {
-  transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%) rotate(0deg);
 }
 
 /* 開く・閉じる：heightで正確にアニメーション */
 .faq-answer {
   display: none;
+  overflow: hidden;
 }
 
 .faq-answer.is-open {
