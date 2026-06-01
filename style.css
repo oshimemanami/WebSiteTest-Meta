@@ -18,7 +18,9 @@
   ============================= */
   --space-2:   2px;
   --space-10:  10px;
+  --space-20:  20px;
   --space-40:  40px;
+  --space-60:  60px;
   --space-100: 100px;
   --space-150: 150px;
 }
@@ -70,7 +72,9 @@ body {
 .sp-0   { margin-bottom: 0; }
 .sp-2   { margin-bottom: var(--space-2); }
 .sp-10  { margin-bottom: var(--space-10); }
+.sp-20  { margin-bottom: var(--space-20); }
 .sp-40  { margin-bottom: var(--space-40); }
+.sp-60  { margin-bottom: var(--space-60); }
 .sp-100 { margin-bottom: var(--space-100); }
 .sp-150 { margin-bottom: var(--space-150); }
 
