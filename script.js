@@ -230,28 +230,31 @@ function initFaqAccordion() {
     const isOpen = answer.classList.contains('is-open');
 
     if (!isOpen) {
-      // 開く：実際の高さを測ってheightをセット
+      // 開く
       answer.classList.add('is-open');
+      const h = answer.scrollHeight;
       answer.style.height = '0px';
-      // 一瞬待ってからheightをscrollHeightに
+      answer.style.opacity = '0';
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          answer.style.height = answer.scrollHeight + 'px';
+          answer.style.height = h + 'px';
           answer.style.opacity = '1';
         });
       });
       if (arrow) arrow.classList.add('is-open');
       if (qImg) { qImg.classList.remove('sp-150'); qImg.classList.add('sp-10'); }
     } else {
-      // 閉じる：現在の高さから0へ逆再生
-      answer.style.height = answer.scrollHeight + 'px';
+      // 閉じる：heightを現在値で固定してから0へ（下に落ちるのを防ぐ）
+      const h = answer.offsetHeight;
+      answer.style.height = h + 'px';
+      answer.style.opacity = '1';
+      answer.classList.remove('is-open');
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           answer.style.height = '0px';
           answer.style.opacity = '0';
         });
       });
-      answer.classList.remove('is-open');
       if (arrow) arrow.classList.remove('is-open');
       if (qImg) { qImg.classList.remove('sp-10'); qImg.classList.add('sp-150'); }
     }

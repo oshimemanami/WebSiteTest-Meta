@@ -127,7 +127,7 @@ body {
   bottom: 27px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
+  width: 92%;
   display: block;
 }
 
@@ -309,7 +309,7 @@ body {
   overflow: hidden;
   height: 0;
   opacity: 0;
-  transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease;
 }
 
 .faq-answer.is-open {
