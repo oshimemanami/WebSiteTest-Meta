@@ -124,10 +124,10 @@ body {
 
 .meta-15b-link {
   position: absolute;
-  bottom: -10px;
+  bottom: 27px;
   left: 50%;
   transform: translateX(-50%);
-  width: 85%;
+  width: 90%;
   display: block;
 }
 
@@ -304,17 +304,17 @@ body {
   transform: translateY(-50%) rotate(180deg);
 }
 
-/* 開く：下へスライドアウト・閉じる：上へスライドイン */
+/* 開く・閉じる：heightで正確にアニメーション */
 .faq-answer {
   overflow: hidden;
-  max-height: 0;
+  height: 0;
   opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.35s ease;
+  transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
 }
 
 .faq-answer.is-open {
-  max-height: 2000px;
   opacity: 1;
+  /* heightはJSで直接セット */
 }
 
 /* =============================
