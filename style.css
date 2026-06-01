@@ -306,7 +306,7 @@ body {
 
 /* 開く・閉じる：heightで正確にアニメーション */
 .faq-answer {
-  /* JSで制御 */
+  display: none;
 }
 
 .faq-answer.is-open {

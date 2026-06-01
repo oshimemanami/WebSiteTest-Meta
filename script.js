@@ -226,27 +226,17 @@ function initFaqAccordion() {
   const qImg     = document.getElementById('meta13aImg');
   if (!question || !answer) return;
 
-  // 初期状態：高さ0で隠す（display:noneではなくheight:0で管理）
-  answer.style.height   = '0';
-  answer.style.overflow = 'hidden';
-  answer.style.display  = 'block';
-  answer.style.transition = 'height 0.4s ease';
-
   let isOpen = false;
+
+  answer.style.display = 'none';
 
   question.addEventListener('click', () => {
     isOpen = !isOpen;
-
+    answer.style.display = isOpen ? 'block' : 'none';
     if (arrow) arrow.classList.toggle('is-open', isOpen);
     if (qImg) {
       qImg.classList.toggle('sp-10',  isOpen);
       qImg.classList.toggle('sp-150', !isOpen);
-    }
-
-    if (isOpen) {
-      answer.style.height = answer.scrollHeight + 'px';
-    } else {
-      answer.style.height = '0';
     }
   });
 }
