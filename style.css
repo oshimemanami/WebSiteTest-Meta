@@ -22,7 +22,7 @@
   --space-40:  40px;
   --space-60:  60px;
   --space-100: 100px;
-  --space-150: 130px;
+  --space-130: 130px;
 }
 
 *, *::before, *::after {
@@ -80,7 +80,7 @@ body {
 .sp-40  { margin-bottom: var(--space-40); }
 .sp-60  { margin-bottom: var(--space-60); }
 .sp-100 { margin-bottom: var(--space-100); }
-.sp-150 { margin-bottom: var(--space-150); }
+.sp-130 { margin-bottom: var(--space-130); }
 
 .meta-link {
   display: block;
@@ -108,8 +108,8 @@ body {
 .btn-row.sp-100, .meta-link.sp-100, .section-slider.sp-100,
 .meta-gif-wrap.sp-100, .faq-accordion.sp-100, .meta-narrow.sp-100 { margin-bottom: var(--space-100); }
 
-.btn-row.sp-150, .meta-link.sp-150, .section-slider.sp-150,
-.meta-gif-wrap.sp-150, .faq-accordion.sp-150, .meta-narrow.sp-150 { margin-bottom: var(--space-150); }
+.btn-row.sp-130, .meta-link.sp-130, .section-slider.sp-130,
+.meta-gif-wrap.sp-130, .faq-accordion.sp-130, .meta-narrow.sp-130 { margin-bottom: var(--space-130); }
 
 /* =============================
    meta_15 重ね表示
@@ -137,8 +137,8 @@ body {
 }
 
 /* section-metaにもsp-*を適用 */
-.section-meta.sp-top-150 { margin-top: var(--space-150); }
-.section-meta.sp-150 { margin-top: var(--space-150); }
+.section-meta.sp-top-130 { margin-top: var(--space-130); }
+.section-meta.sp-130 { margin-top: var(--space-130); }
 
 .meta-05a-narrow,
 .meta-narrow {
@@ -391,32 +391,33 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(30, 30, 30, 0.6);
+  width: 44px;
+  height: 70px;
+  border-radius: 4px;
+  background: transparent;
   border: none;
-  font-size: 14px;
+  font-size: 22px;
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5);
   z-index: 10;
-  transition: background 0.2s;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .slider-btn:active {
-  background: rgba(0, 0, 0, 0.8);
+  opacity: 0.7;
 }
 
 .slider-btn-prev {
-  left: 8px;
+  left: 4px;
 }
 
 .slider-btn-next {
-  right: 8px;
+  right: 4px;
 }
 
 /* =============================
@@ -564,7 +565,7 @@ body {
   margin-top: 100px;
 }
 
-.sp-top-150 {
+.sp-top-130 {
   margin-top: 150px;
 }
 
