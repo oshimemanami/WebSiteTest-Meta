@@ -393,16 +393,12 @@ body {
   transform: translateY(-50%);
   width: 44px;
   height: 70px;
-  border-radius: 4px;
   background: transparent;
   border: none;
-  font-size: 22px;
-  color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5);
   z-index: 10;
   padding: 0;
   -webkit-tap-highlight-color: transparent;
@@ -410,6 +406,17 @@ body {
 
 .slider-btn:active {
   opacity: 0.7;
+}
+
+.slider-btn-img {
+  width: 24px;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+
+.slider-btn-img-flip {
+  transform: scaleX(-1);
 }
 
 .slider-btn-prev {
