@@ -22,7 +22,7 @@
   --space-40:  40px;
   --space-60:  60px;
   --space-100: 100px;
-  --space-150: 150px;
+  --space-150: 130px;
 }
 
 *, *::before, *::after {
@@ -124,7 +124,7 @@ body {
 
 .meta-15b-link {
   position: absolute;
-  bottom: 27px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   width: 92%;
@@ -269,8 +269,10 @@ body {
 }
 
 .faq-q-img {
-  width: 100%;
+  width: 90%;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .faq-question {
