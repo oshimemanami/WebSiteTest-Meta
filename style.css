@@ -166,11 +166,11 @@ body {
 }
 
 .footer-link-item {
-  display: block;
+  display: inline-block;
   color: #fff;
   text-decoration: none;
   font-size: 15px;
-  padding: 14px 0;
+  padding: 14px 20px;
   border: none;
   outline: none;
   letter-spacing: 0.05em;
@@ -298,6 +298,7 @@ body {
   pointer-events: none;
   display: block;
   object-fit: contain;
+  image-orientation: none;
 }
 
 .faq-arrow-img.is-open {

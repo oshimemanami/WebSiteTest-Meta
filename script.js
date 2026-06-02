@@ -220,24 +220,25 @@ function initKakakuModal() {
    FAQ アコーディオン（meta_13a/b）
 ============================= */
 function initFaqAccordion() {
-  const question = document.getElementById('faqQuestion');
-  const answer   = document.getElementById('faqAnswer');
-  const arrow    = document.getElementById('faqArrow');
-  const qImg     = document.getElementById('meta13aImg');
-  if (!question || !answer) return;
+  document.querySelectorAll('.faq-accordion').forEach(accordion => {
+    const question = accordion.querySelector('.faq-question');
+    const answer   = accordion.querySelector('.faq-answer');
+    const arrow    = accordion.querySelector('.faq-arrow-img');
+    const qImg     = accordion.querySelector('.faq-q-img');
+    if (!question || !answer) return;
 
-  let isOpen = false;
+    let isOpen = false;
+    answer.style.display = 'none';
 
-  answer.style.display = 'none';
-
-  question.addEventListener('click', () => {
-    isOpen = !isOpen;
-    answer.style.display = isOpen ? 'block' : 'none';
-    if (arrow) arrow.classList.toggle('is-open', isOpen);
-    if (qImg) {
-      qImg.classList.toggle('sp-10',  isOpen);
-      qImg.classList.toggle('sp-150', !isOpen);
-    }
+    question.addEventListener('click', () => {
+      isOpen = !isOpen;
+      answer.style.display = isOpen ? 'block' : 'none';
+      if (arrow) arrow.classList.toggle('is-open', isOpen);
+      if (qImg) {
+        qImg.classList.toggle('sp-10',  isOpen);
+        qImg.classList.toggle('sp-150', !isOpen);
+      }
+    });
   });
 }
 
