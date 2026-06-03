@@ -89,21 +89,27 @@ function initSlider(outerId, wrapId, trackId, dotsId, prevBtnId, nextBtnId, imag
       const stripWidth = thumbsEl.offsetWidth;
       const maxScroll = thumbsEl.scrollWidth - stripWidth;
       const currentScroll = thumbsEl.scrollLeft;
-      const targetScroll = thumbLeft - stripWidth / 2 + thumbWidth / 2;
+      const targetScroll = Math.max(0, Math.min(thumbLeft - stripWidth / 2 + thumbWidth / 2, maxScroll));
 
-      // 右端（最後）→左端（最初）へのラップ
-      if (realIndex === 0 && currentScroll > maxScroll * 0.6) {
-        thumbsEl.scrollLeft = -thumbWidth;
-      }
-      // 左端（最初）→右端（最後）へのラップ
-      else if (realIndex === total - 1 && currentScroll < maxScroll * 0.4) {
-        thumbsEl.scrollLeft = maxScroll + thumbWidth;
-      }
+      // ラップ判定：Safari対応のため瞬間移動→scrollToを分離
+      const needsWrapToStart = realIndex === 0 && currentScroll > maxScroll * 0.6;
+      const needsWrapToEnd   = realIndex === total - 1 && currentScroll < maxScroll * 0.4;
 
-      thumbsEl.scrollTo({
-        left: Math.max(0, Math.min(targetScroll, maxScroll)),
-        behavior: 'smooth'
-      });
+      if (needsWrapToStart || needsWrapToEnd) {
+        // まず瞬間移動（animationなし）
+        const jumpTo = needsWrapToStart ? 0 : maxScroll;
+        thumbsEl.style.scrollBehavior = 'auto';
+        thumbsEl.scrollLeft = jumpTo;
+        // Safariがレイアウトを確定するのを待ってからスムーズスクロール
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            thumbsEl.style.scrollBehavior = '';
+            thumbsEl.scrollTo({ left: targetScroll, behavior: 'smooth' });
+          });
+        });
+      } else {
+        thumbsEl.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      }
     }
   }
 
