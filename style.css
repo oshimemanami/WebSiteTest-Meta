@@ -468,10 +468,24 @@ body {
   overflow: hidden;
   background: #eee;
   aspect-ratio: 4/3;
+  position: relative;
+}
+
+.slider-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.45);
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
 
 .slider-thumb.is-active {
   border-color: #c8002d;
+}
+
+.slider-thumb.is-active::after {
+  opacity: 0;
 }
 
 .slider-thumb img {
