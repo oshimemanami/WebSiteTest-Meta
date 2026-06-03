@@ -166,14 +166,15 @@ body {
 }
 
 .footer-link-item {
-  display: inline-block;
+  display: block;
   color: #fff;
   text-decoration: none;
   font-size: 15px;
-  padding: 14px 20px;
+  padding: 10px 0;
   border: none;
   outline: none;
   letter-spacing: 0.05em;
+  text-align: center;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -354,7 +355,7 @@ body {
   overflow: hidden;
 }
 
-/* スライダーラッパー（タッチイベントはここに付ける） */
+/* スライダーラッパー */
 .slider-wrap {
   width: 100%;
   overflow: hidden;
@@ -427,31 +428,53 @@ body {
   right: 4px;
 }
 
-/* =============================
-   ドットインジケーター
-============================= */
-.slider-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 0;
+/* ページ番号 */
+.slider-counter {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  padding: 6px 0 4px;
   background: #fff;
-  position: relative;
-  z-index: 1;
 }
 
-.slider-dots .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--slider-dot-color);
-  transition: background 0.3s;
+/* ドット非表示 */
+.slider-dots {
+  display: none;
+}
+
+/* =============================
+   サムネイルストリップ
+============================= */
+.slider-thumbs {
+  display: flex;
+  overflow-x: auto;
+  gap: 3px;
+  padding: 3px 0;
+  background: #fff;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slider-thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-thumb {
+  flex: 0 0 calc(30% - 2px);
   cursor: pointer;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
 }
 
-.slider-dots .dot.is-active {
-  background: var(--slider-dot-active);
+.slider-thumb.is-active {
+  border-color: #c8002d;
+}
+
+.slider-thumb img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
 }
 
 /* =============================

@@ -27,19 +27,20 @@ const sliderBImages = [
 /* =============================
    スライダー初期化関数
 ============================= */
-function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
-  const wrap    = document.getElementById(wrapId);
-  const track   = document.getElementById(trackId);
-  const dotsEl  = document.getElementById(dotsId);
-  const prevBtn = document.getElementById(prevBtnId);
-  const nextBtn = document.getElementById(nextBtnId);
+function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, counterId, thumbsId) {
+  const wrap     = document.getElementById(wrapId);
+  const track    = document.getElementById(trackId);
+  const prevBtn  = document.getElementById(prevBtnId);
+  const nextBtn  = document.getElementById(nextBtnId);
+  const counterEl = counterId ? document.getElementById(counterId) : null;
+  const thumbsEl  = thumbsId  ? document.getElementById(thumbsId)  : null;
 
-  if (!wrap || !track || !dotsEl) return;
+  if (!wrap || !track) return;
 
   const total = images.length;
   if (total === 0) return;
 
-  // クローンループ構成: [last clone] [0..n-1] [first clone]
+  // クローンループ構成
   const allImages = [images[total - 1], ...images, images[0]];
 
   allImages.forEach((img) => {
@@ -53,16 +54,36 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
     track.appendChild(item);
   });
 
-  // ドット生成
-  for (let i = 0; i < total; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' is-active' : '');
-    dot.addEventListener('click', () => goTo(i));
-    dotsEl.appendChild(dot);
+  // サムネイル生成
+  const thumbEls = [];
+  if (thumbsEl) {
+    images.forEach((img, i) => {
+      const thumb = document.createElement('div');
+      thumb.className = 'slider-thumb' + (i === 0 ? ' is-active' : '');
+      const tImg = document.createElement('img');
+      tImg.src = img.src;
+      tImg.alt = img.alt;
+      tImg.loading = 'lazy';
+      thumb.appendChild(tImg);
+      thumb.addEventListener('click', () => goTo(i));
+      thumbsEl.appendChild(thumb);
+      thumbEls.push(thumb);
+    });
   }
 
   let currentIndex = 0;
   const SWIPE_THRESHOLD = 0.2;
+
+  function updateUI(index) {
+    // カウンター更新
+    if (counterEl) counterEl.textContent = (index + 1) + ' / ' + total;
+    // サムネイルアクティブ更新
+    thumbEls.forEach((t, i) => t.classList.toggle('is-active', i === index));
+    // サムネイルを自動スクロール（アクティブが見えるように）
+    if (thumbsEl && thumbEls[index]) {
+      thumbEls[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }
+  }
 
   function moveToReal(index, animate = true) {
     const trackIndex = index + 1;
@@ -70,49 +91,44 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
     track.style.transform = `translateX(-${trackIndex * 100}%)`;
   }
 
-  function updateDots(index) {
-    dotsEl.querySelectorAll('.dot').forEach((d, i) => {
-      d.classList.toggle('is-active', i === index);
-    });
-  }
-
   function goTo(index) {
     currentIndex = index;
     moveToReal(currentIndex, true);
-    updateDots(currentIndex);
+    updateUI(currentIndex);
   }
 
   function next() {
     currentIndex++;
     moveToReal(currentIndex, true);
-    updateDots(currentIndex < total ? currentIndex : 0);
+    updateUI(currentIndex < total ? currentIndex : 0);
   }
 
   function prev() {
     currentIndex--;
     moveToReal(currentIndex, true);
-    updateDots(currentIndex >= 0 ? currentIndex : total - 1);
+    updateUI(currentIndex >= 0 ? currentIndex : total - 1);
   }
 
   track.addEventListener('transitionend', () => {
     if (currentIndex >= total) {
       currentIndex = 0;
       moveToReal(currentIndex, false);
+      updateUI(currentIndex);
     } else if (currentIndex < 0) {
       currentIndex = total - 1;
       moveToReal(currentIndex, false);
+      updateUI(currentIndex);
     }
   });
 
   moveToReal(0, false);
+  updateUI(0);
 
-  // 前後ボタン
   if (prevBtn) prevBtn.addEventListener('click', prev);
   if (nextBtn) nextBtn.addEventListener('click', next);
 
-  // タッチイベント（wrapに付ける）
+  // タッチ
   let touchStartX = 0, touchCurrentX = 0, isDragging = false, baseTranslate = 0;
-
   wrap.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
     touchCurrentX = touchStartX;
@@ -120,14 +136,12 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
     baseTranslate = -((currentIndex + 1) * 100);
     track.style.transition = 'none';
   }, { passive: true });
-
   wrap.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     touchCurrentX = e.touches[0].clientX;
     const diffPercent = ((touchCurrentX - touchStartX) / wrap.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
   }, { passive: true });
-
   wrap.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
@@ -138,22 +152,19 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
     else moveToReal(currentIndex, true);
   });
 
-  // マウスドラッグ（PC確認用）
+  // マウスドラッグ
   let mouseStartX = 0, isMouseDragging = false;
-
   wrap.addEventListener('mousedown', (e) => {
     mouseStartX = e.clientX;
     isMouseDragging = true;
     baseTranslate = -((currentIndex + 1) * 100);
     track.style.transition = 'none';
   });
-
   wrap.addEventListener('mousemove', (e) => {
     if (!isMouseDragging) return;
     const diffPercent = ((e.clientX - mouseStartX) / wrap.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
   });
-
   wrap.addEventListener('mouseup', (e) => {
     if (!isMouseDragging) return;
     isMouseDragging = false;
@@ -163,12 +174,8 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images) {
     else if (diff > threshold) prev();
     else moveToReal(currentIndex, true);
   });
-
   wrap.addEventListener('mouseleave', () => {
-    if (isMouseDragging) {
-      isMouseDragging = false;
-      moveToReal(currentIndex, true);
-    }
+    if (isMouseDragging) { isMouseDragging = false; moveToReal(currentIndex, true); }
   });
 }
 
@@ -306,8 +313,8 @@ function initFooterNav() {
    DOM読み込み後に初期化
 ============================= */
 document.addEventListener('DOMContentLoaded', () => {
-  initSlider('sliderA', 'sliderA-track', 'sliderA-dots', 'sliderA-prev', 'sliderA-next', sliderAImages);
-  initSlider('sliderB', 'sliderB-track', 'sliderB-dots', 'sliderB-prev', 'sliderB-next', sliderBImages);
+  initSlider('sliderA', 'sliderA-track', 'sliderA-dots', 'sliderA-prev', 'sliderA-next', sliderAImages, 'sliderA-counter', 'sliderA-thumbs');
+  initSlider('sliderB', 'sliderB-track', 'sliderB-dots', 'sliderB-prev', 'sliderB-next', sliderBImages, 'sliderB-counter', 'sliderB-thumbs');
   initKakakuModal();
   initFaqAccordion();
   initFooterNav();
