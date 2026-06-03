@@ -169,13 +169,15 @@ function initSlider(outerId, wrapId, trackId, dotsId, prevBtnId, nextBtnId, imag
   // タッチ・マウスイベントを dragTarget（slider-outer）全面で受け取る
   // =============================
 
-  let touchStartX = 0, touchCurrentX = 0, isDragging = false, baseTranslate = 0;
+  let touchStartX = 0, touchStartY = 0, touchCurrentX = 0, isDragging = false, baseTranslate = 0;
+  let swipeDirection = null; // 'horizontal' | 'vertical' | null
 
   dragTarget.addEventListener('touchstart', (e) => {
-    // ボタン上のタッチも含めてドラッグ開始
     touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
     touchCurrentX = touchStartX;
     isDragging = true;
+    swipeDirection = null;
     lastDragDiff = 0;
     baseTranslate = -((currentIndex + 1) * 100);
     track.style.transition = 'none';
@@ -183,14 +185,33 @@ function initSlider(outerId, wrapId, trackId, dotsId, prevBtnId, nextBtnId, imag
 
   dragTarget.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
-    touchCurrentX = e.touches[0].clientX;
-    const diffPercent = ((touchCurrentX - touchStartX) / wrap.offsetWidth) * 100;
-    track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
-  }, { passive: true });
+    const dx = e.touches[0].clientX - touchStartX;
+    const dy = e.touches[0].clientY - touchStartY;
+
+    // 最初の8pxで横か縦かを確定
+    if (swipeDirection === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      swipeDirection = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+    }
+
+    // 縦スワイプと判定した場合はスライダーを触らない
+    if (swipeDirection === 'vertical') return;
+
+    // 横スワイプ：ページの縦スクロールを止めてスライダーを動かす
+    if (swipeDirection === 'horizontal') {
+      e.preventDefault();
+      touchCurrentX = e.touches[0].clientX;
+      const diffPercent = ((touchCurrentX - touchStartX) / wrap.offsetWidth) * 100;
+      track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
+    }
+  }, { passive: false });
 
   dragTarget.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
+    if (swipeDirection !== 'horizontal') {
+      moveToReal(currentIndex, true);
+      return;
+    }
     lastDragDiff = touchCurrentX - touchStartX;
     const threshold = wrap.offsetWidth * SWIPE_THRESHOLD;
     if (lastDragDiff < -threshold) next();
