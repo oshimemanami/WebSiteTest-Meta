@@ -655,14 +655,15 @@ body.kakaku-open {
 .video-wrap {
   width: 100%;
   position: relative;
-  padding-top: 48.75%; /* 16:9 黒帯調整 */
+  padding-top: 51%; /* 16:9 黒帯調整 */
+  overflow: hidden;
 }
 
 .video-wrap iframe {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: -5%;
+  width: 110%;
   height: 100%;
   border: none;
 }
