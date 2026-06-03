@@ -63,7 +63,6 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
       const tImg = document.createElement('img');
       tImg.src = img.src;
       tImg.alt = img.alt;
-      tImg.loading = 'lazy';
       thumb.appendChild(tImg);
       thumb.addEventListener('click', () => goTo(i));
       thumbsEl.appendChild(thumb);

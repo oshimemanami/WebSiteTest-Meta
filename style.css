@@ -170,7 +170,7 @@ body {
   color: #fff;
   text-decoration: none;
   font-size: 15px;
-  padding: 10px 0;
+  padding: 15px 0;
   border: none;
   outline: none;
   letter-spacing: 0.05em;
@@ -462,9 +462,12 @@ body {
 .slider-thumb {
   flex: 0 0 calc(30% - 2px);
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   box-sizing: border-box;
   transition: border-color 0.2s;
+  overflow: hidden;
+  background: #eee;
+  aspect-ratio: 4/3;
 }
 
 .slider-thumb.is-active {
@@ -473,7 +476,9 @@ body {
 
 .slider-thumb img {
   width: 100%;
+  height: 100%;
   display: block;
+  object-fit: cover;
   pointer-events: none;
 }
 
