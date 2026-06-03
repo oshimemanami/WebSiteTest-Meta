@@ -178,6 +178,18 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* フッターPC被り対策 */
+.fixed-footer-spacer {
+  height: 80px;
+}
+
+/* PC版meta_15b bottom */
+@media (min-width: 641px) {
+  .meta-15b-link {
+    bottom: 39px;
+  }
+}
+
 .footer-link-item:first-child {
   border: none;
 }
@@ -353,6 +365,8 @@ body {
   border: 1px solid #000;
   border-radius: 0;
   overflow: hidden;
+  font-size: 0;
+  line-height: 0;
 }
 
 /* スライダーラッパー */
@@ -392,8 +406,8 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 70px;
+  width: 48px;
+  height: 80px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -410,7 +424,7 @@ body {
 }
 
 .slider-btn-img {
-  width: 24px;
+  width: 28px;
   height: auto;
   display: block;
   pointer-events: none;
@@ -421,11 +435,11 @@ body {
 }
 
 .slider-btn-prev {
-  left: 4px;
+  left: 0;
 }
 
 .slider-btn-next {
-  right: 4px;
+  right: 0;
 }
 
 /* ページ番号 */
@@ -460,7 +474,7 @@ body {
 }
 
 .slider-thumb {
-  flex: 0 0 calc(30% - 2px);
+  flex: 0 0 calc(25% - 3px);
   cursor: pointer;
   border: 3px solid transparent;
   box-sizing: border-box;

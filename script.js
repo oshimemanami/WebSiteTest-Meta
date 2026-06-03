@@ -74,24 +74,18 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
   const SWIPE_THRESHOLD = 0.2;
 
   function updateUI(index) {
-    // ループ時のインデックス正規化
     const realIndex = ((index % total) + total) % total;
     if (counterEl) counterEl.textContent = (realIndex + 1) + ' / ' + total;
     thumbEls.forEach((t, i) => t.classList.toggle('is-active', i === realIndex));
     if (thumbsEl && thumbEls[realIndex]) {
       const thumb = thumbEls[realIndex];
-      // 1枚目は左端、それ以外は中央寄せ
-      if (realIndex === 0) {
-        thumbsEl.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        const thumbLeft = thumb.offsetLeft;
-        const thumbWidth = thumb.offsetWidth;
-        const stripWidth = thumbsEl.offsetWidth;
-        thumbsEl.scrollTo({
-          left: thumbLeft - stripWidth / 2 + thumbWidth / 2,
-          behavior: 'smooth'
-        });
-      }
+      const thumbLeft = thumb.offsetLeft;
+      const thumbWidth = thumb.offsetWidth;
+      const stripWidth = thumbsEl.offsetWidth;
+      thumbsEl.scrollTo({
+        left: thumbLeft - stripWidth / 2 + thumbWidth / 2,
+        behavior: 'smooth'
+      });
     }
   }
 
@@ -261,8 +255,8 @@ function initFaqAccordion() {
       answer.style.display = isOpen ? 'block' : 'none';
       if (arrow) arrow.classList.toggle('is-open', isOpen);
       if (qImg) {
-        qImg.classList.toggle('sp-10',  isOpen);
-        qImg.classList.toggle('sp-150', !isOpen);
+        qImg.classList.toggle('sp-10', isOpen);
+        qImg.classList.toggle('sp-40', !isOpen);
       }
     });
   });
