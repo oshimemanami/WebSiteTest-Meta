@@ -646,3 +646,21 @@ body.kakaku-open {
     max-width: 100%;
   }
 }
+
+/* =============================
+   YouTube動画埋め込み
+============================= */
+.video-wrap {
+  width: 100%;
+  position: relative;
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.video-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
