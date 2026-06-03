@@ -404,18 +404,18 @@ body {
 /* 前後ボタン */
 .slider-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 48px;
-  height: 80px;
+  top: 0;
+  bottom: 0;
+  width: 33.333%;
+  height: 100%;
+  transform: none;
   background: transparent;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
   z-index: 10;
-  padding: 0;
+  padding: 0 12px;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -436,10 +436,12 @@ body {
 
 .slider-btn-prev {
   left: 0;
+  justify-content: flex-start;
 }
 
 .slider-btn-next {
   right: 0;
+  justify-content: flex-end;
 }
 
 /* ページ番号 */

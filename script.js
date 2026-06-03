@@ -54,12 +54,14 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
     track.appendChild(item);
   });
 
-  // サムネイル生成（シンプル、クローンなし）
+  // サムネイル生成（無限ループ対応：左右にクローンを追加）
   const thumbEls = [];
   if (thumbsEl) {
+    // 実サムネイルを生成
     images.forEach((img, i) => {
       const thumb = document.createElement('div');
       thumb.className = 'slider-thumb' + (i === 0 ? ' is-active' : '');
+      thumb.dataset.index = i;
       const tImg = document.createElement('img');
       tImg.src = img.src;
       tImg.alt = img.alt;
@@ -82,8 +84,21 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
       const thumbLeft = thumb.offsetLeft;
       const thumbWidth = thumb.offsetWidth;
       const stripWidth = thumbsEl.offsetWidth;
+      const maxScroll = thumbsEl.scrollWidth - stripWidth;
+      const currentScroll = thumbsEl.scrollLeft;
+      const targetScroll = thumbLeft - stripWidth / 2 + thumbWidth / 2;
+
+      // 右端（最後）→左端（最初）へのラップ：瞬間移動してからスムーズスクロール
+      if (realIndex === 0 && currentScroll > maxScroll * 0.6) {
+        thumbsEl.scrollLeft = -thumbWidth;
+      }
+      // 左端（最初）→右端（最後）へのラップ
+      else if (realIndex === total - 1 && currentScroll < maxScroll * 0.4) {
+        thumbsEl.scrollLeft = maxScroll + thumbWidth;
+      }
+
       thumbsEl.scrollTo({
-        left: thumbLeft - stripWidth / 2 + thumbWidth / 2,
+        left: Math.max(0, Math.min(targetScroll, maxScroll)),
         behavior: 'smooth'
       });
     }
