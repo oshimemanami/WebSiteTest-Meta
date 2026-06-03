@@ -54,18 +54,9 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
     track.appendChild(item);
   });
 
-  // サムネイル生成（ループ用にクローンも追加）
+  // サムネイル生成（シンプル、クローンなし）
   const thumbEls = [];
   if (thumbsEl) {
-    // 前クローン（最後の画像）
-    const clonePrev = document.createElement('div');
-    clonePrev.className = 'slider-thumb thumb-clone';
-    const clonePrevImg = document.createElement('img');
-    clonePrevImg.src = images[total - 1].src;
-    clonePrevImg.alt = images[total - 1].alt;
-    clonePrev.appendChild(clonePrevImg);
-    thumbsEl.appendChild(clonePrev);
-
     images.forEach((img, i) => {
       const thumb = document.createElement('div');
       thumb.className = 'slider-thumb' + (i === 0 ? ' is-active' : '');
@@ -77,33 +68,30 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
       thumbsEl.appendChild(thumb);
       thumbEls.push(thumb);
     });
-
-    // 後クローン（最初の画像）
-    const cloneNext = document.createElement('div');
-    cloneNext.className = 'slider-thumb thumb-clone';
-    const cloneNextImg = document.createElement('img');
-    cloneNextImg.src = images[0].src;
-    cloneNextImg.alt = images[0].alt;
-    cloneNext.appendChild(cloneNextImg);
-    thumbsEl.appendChild(cloneNext);
   }
 
   let currentIndex = 0;
   const SWIPE_THRESHOLD = 0.2;
 
   function updateUI(index) {
-    if (counterEl) counterEl.textContent = (index + 1) + ' / ' + total;
-    thumbEls.forEach((t, i) => t.classList.toggle('is-active', i === index));
-    // アクティブサムネイルが中央に来るようスクロール
-    if (thumbsEl && thumbEls[index]) {
-      const thumb = thumbEls[index];
-      const thumbLeft = thumb.offsetLeft;
-      const thumbWidth = thumb.offsetWidth;
-      const stripWidth = thumbsEl.offsetWidth;
-      thumbsEl.scrollTo({
-        left: thumbLeft - stripWidth / 2 + thumbWidth / 2,
-        behavior: 'smooth'
-      });
+    // ループ時のインデックス正規化
+    const realIndex = ((index % total) + total) % total;
+    if (counterEl) counterEl.textContent = (realIndex + 1) + ' / ' + total;
+    thumbEls.forEach((t, i) => t.classList.toggle('is-active', i === realIndex));
+    if (thumbsEl && thumbEls[realIndex]) {
+      const thumb = thumbEls[realIndex];
+      // 1枚目は左端、それ以外は中央寄せ
+      if (realIndex === 0) {
+        thumbsEl.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        const thumbLeft = thumb.offsetLeft;
+        const thumbWidth = thumb.offsetWidth;
+        const stripWidth = thumbsEl.offsetWidth;
+        thumbsEl.scrollTo({
+          left: thumbLeft - stripWidth / 2 + thumbWidth / 2,
+          behavior: 'smooth'
+        });
+      }
     }
   }
 
@@ -122,13 +110,13 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
   function next() {
     currentIndex++;
     moveToReal(currentIndex, true);
-    updateUI(currentIndex < total ? currentIndex : 0);
+    updateUI(currentIndex);
   }
 
   function prev() {
     currentIndex--;
     moveToReal(currentIndex, true);
-    updateUI(currentIndex >= 0 ? currentIndex : total - 1);
+    updateUI(currentIndex);
   }
 
   track.addEventListener('transitionend', () => {
