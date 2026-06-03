@@ -179,6 +179,15 @@ function openKakakuModal() {
   const overlay = document.getElementById('kakakuOverlay');
   const sheet   = document.getElementById('kakakuSheet');
   if (!overlay || !sheet) return;
+
+  // 初回のみ画像を読み込む
+  sheet.querySelectorAll('img[data-src]').forEach(img => {
+    if (!img.src || img.src === window.location.href) {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    }
+  });
+
   overlay.style.display = 'block';
   document.body.classList.add('kakaku-open');
   requestAnimationFrame(() => {
