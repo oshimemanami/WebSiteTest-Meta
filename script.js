@@ -27,7 +27,8 @@ const sliderBImages = [
 /* =============================
    スライダー初期化関数
 ============================= */
-function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, counterId, thumbsId) {
+function initSlider(outerId, wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, counterId, thumbsId) {
+  const outer    = document.getElementById(outerId);
   const wrap     = document.getElementById(wrapId);
   const track    = document.getElementById(trackId);
   const prevBtn  = document.getElementById(prevBtnId);
@@ -36,6 +37,9 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
   const thumbsEl  = thumbsId  ? document.getElementById(thumbsId)  : null;
 
   if (!wrap || !track) return;
+
+  // ドラッグ判定はouter優先、なければwrap
+  const dragTarget = outer || wrap;
 
   const total = images.length;
   if (total === 0) return;
@@ -54,10 +58,9 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
     track.appendChild(item);
   });
 
-  // サムネイル生成（無限ループ対応：左右にクローンを追加）
+  // サムネイル生成
   const thumbEls = [];
   if (thumbsEl) {
-    // 実サムネイルを生成
     images.forEach((img, i) => {
       const thumb = document.createElement('div');
       thumb.className = 'slider-thumb' + (i === 0 ? ' is-active' : '');
@@ -88,7 +91,7 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
       const currentScroll = thumbsEl.scrollLeft;
       const targetScroll = thumbLeft - stripWidth / 2 + thumbWidth / 2;
 
-      // 右端（最後）→左端（最初）へのラップ：瞬間移動してからスムーズスクロール
+      // 右端（最後）→左端（最初）へのラップ
       if (realIndex === 0 && currentScroll > maxScroll * 0.6) {
         thumbsEl.scrollLeft = -thumbWidth;
       }
@@ -143,58 +146,85 @@ function initSlider(wrapId, trackId, dotsId, prevBtnId, nextBtnId, images, count
   moveToReal(0, false);
   updateUI(0);
 
-  if (prevBtn) prevBtn.addEventListener('click', prev);
-  if (nextBtn) nextBtn.addEventListener('click', next);
+  if (prevBtn) prevBtn.addEventListener('click', (e) => {
+    // ドラッグ後の誤クリックを防ぐ（移動量が大きければスキップ）
+    if (Math.abs(lastDragDiff) > 5) return;
+    prev();
+  });
+  if (nextBtn) nextBtn.addEventListener('click', (e) => {
+    if (Math.abs(lastDragDiff) > 5) return;
+    next();
+  });
 
-  // タッチ
+  // ドラッグ中の移動量を記録（ボタンの誤クリック防止用）
+  let lastDragDiff = 0;
+
+  // =============================
+  // タッチ・マウスイベントを dragTarget（slider-outer）全面で受け取る
+  // =============================
+
   let touchStartX = 0, touchCurrentX = 0, isDragging = false, baseTranslate = 0;
-  wrap.addEventListener('touchstart', (e) => {
+
+  dragTarget.addEventListener('touchstart', (e) => {
+    // ボタン上のタッチも含めてドラッグ開始
     touchStartX = e.touches[0].clientX;
     touchCurrentX = touchStartX;
     isDragging = true;
+    lastDragDiff = 0;
     baseTranslate = -((currentIndex + 1) * 100);
     track.style.transition = 'none';
   }, { passive: true });
-  wrap.addEventListener('touchmove', (e) => {
+
+  dragTarget.addEventListener('touchmove', (e) => {
     if (!isDragging) return;
     touchCurrentX = e.touches[0].clientX;
     const diffPercent = ((touchCurrentX - touchStartX) / wrap.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
   }, { passive: true });
-  wrap.addEventListener('touchend', () => {
+
+  dragTarget.addEventListener('touchend', () => {
     if (!isDragging) return;
     isDragging = false;
-    const diff = touchCurrentX - touchStartX;
+    lastDragDiff = touchCurrentX - touchStartX;
     const threshold = wrap.offsetWidth * SWIPE_THRESHOLD;
-    if (diff < -threshold) next();
-    else if (diff > threshold) prev();
+    if (lastDragDiff < -threshold) next();
+    else if (lastDragDiff > threshold) prev();
     else moveToReal(currentIndex, true);
   });
 
   // マウスドラッグ
   let mouseStartX = 0, isMouseDragging = false;
-  wrap.addEventListener('mousedown', (e) => {
+
+  dragTarget.addEventListener('mousedown', (e) => {
+    // ボタン上のmousedownも含めてドラッグ開始
     mouseStartX = e.clientX;
     isMouseDragging = true;
+    lastDragDiff = 0;
     baseTranslate = -((currentIndex + 1) * 100);
     track.style.transition = 'none';
   });
-  wrap.addEventListener('mousemove', (e) => {
+
+  dragTarget.addEventListener('mousemove', (e) => {
     if (!isMouseDragging) return;
     const diffPercent = ((e.clientX - mouseStartX) / wrap.offsetWidth) * 100;
     track.style.transform = `translateX(${baseTranslate + diffPercent}%)`;
   });
-  wrap.addEventListener('mouseup', (e) => {
+
+  dragTarget.addEventListener('mouseup', (e) => {
     if (!isMouseDragging) return;
     isMouseDragging = false;
-    const diff = e.clientX - mouseStartX;
+    lastDragDiff = e.clientX - mouseStartX;
     const threshold = wrap.offsetWidth * SWIPE_THRESHOLD;
-    if (diff < -threshold) next();
-    else if (diff > threshold) prev();
+    if (lastDragDiff < -threshold) next();
+    else if (lastDragDiff > threshold) prev();
     else moveToReal(currentIndex, true);
   });
-  wrap.addEventListener('mouseleave', () => {
-    if (isMouseDragging) { isMouseDragging = false; moveToReal(currentIndex, true); }
+
+  dragTarget.addEventListener('mouseleave', () => {
+    if (isMouseDragging) {
+      isMouseDragging = false;
+      moveToReal(currentIndex, true);
+    }
   });
 }
 
@@ -206,7 +236,6 @@ function openKakakuModal() {
   const sheet   = document.getElementById('kakakuSheet');
   if (!overlay || !sheet) return;
 
-  // 初回のみ画像を読み込む
   sheet.querySelectorAll('img[data-src]').forEach(img => {
     if (!img.src || img.src === window.location.href) {
       img.src = img.dataset.src;
@@ -238,7 +267,6 @@ function initKakakuModal() {
   const overlay  = document.getElementById('kakakuOverlay');
   const closeBtn = document.getElementById('kakakuClose');
 
-  // 価格表を開くボタン（複数箇所）
   ['btnKakaku04b', 'btnKakaku06b', 'btnKakaku14b'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.addEventListener('click', (e) => {
@@ -284,11 +312,10 @@ function initFooterNav() {
   const footerImg = document.getElementById('footerImg');
   if (!footerImg) return;
 
-  // 画像読み込み後にエリア座標を計算
   function setupMap() {
     const w = footerImg.offsetWidth;
     const h = footerImg.offsetHeight;
-    const q = Math.floor(w / 4); // 4分割
+    const q = Math.floor(w / 4);
 
     document.getElementById('areaCorner').coords  = `${q * 0},0,${q * 1},${h}`;
     document.getElementById('areaFinish').coords  = `${q * 1},0,${q * 2},${h}`;
@@ -300,7 +327,6 @@ function initFooterNav() {
   else footerImg.addEventListener('load', setupMap);
   window.addEventListener('resize', setupMap);
 
-  // スムーススクロール（mapエリア）
   document.querySelectorAll('map area[href^="#"]').forEach(area => {
     area.addEventListener('click', (e) => {
       e.preventDefault();
@@ -309,7 +335,6 @@ function initFooterNav() {
     });
   });
 
-  // iOS Safari対応：画像タップ位置からエリアを判定してスクロール
   footerImg.addEventListener('click', (e) => {
     const rect = footerImg.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -332,8 +357,9 @@ function initFooterNav() {
    DOM読み込み後に初期化
 ============================= */
 document.addEventListener('DOMContentLoaded', () => {
-  initSlider('sliderA', 'sliderA-track', 'sliderA-dots', 'sliderA-prev', 'sliderA-next', sliderAImages, 'sliderA-counter', 'sliderA-thumbs');
-  initSlider('sliderB', 'sliderB-track', 'sliderB-dots', 'sliderB-prev', 'sliderB-next', sliderBImages, 'sliderB-counter', 'sliderB-thumbs');
+  // 第1引数に slider-outer の ID を追加
+  initSlider('sliderA-outer', 'sliderA', 'sliderA-track', 'sliderA-dots', 'sliderA-prev', 'sliderA-next', sliderAImages, 'sliderA-counter', 'sliderA-thumbs');
+  initSlider('sliderB-outer', 'sliderB', 'sliderB-track', 'sliderB-dots', 'sliderB-prev', 'sliderB-next', sliderBImages, 'sliderB-counter', 'sliderB-thumbs');
   initKakakuModal();
   initFaqAccordion();
   initFooterNav();
