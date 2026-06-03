@@ -655,7 +655,7 @@ body.kakaku-open {
 .video-wrap {
   width: 100%;
   position: relative;
-  padding-top: 50%; /* 16:9 黒帯調整 */
+  padding-top: 51%; /* 16:9 黒帯調整 */
   overflow: hidden;
 }
 
