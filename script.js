@@ -189,8 +189,8 @@ function initSlider(outerId, wrapId, trackId, dotsId, prevBtnId, nextBtnId, imag
     const dy = e.touches[0].clientY - touchStartY;
 
     // 最初の8pxで横か縦かを確定
-    if (swipeDirection === null && (Math.abs(dx) > 16 || Math.abs(dy) > 16)) {
-      swipeDirection = Math.abs(dx) > Math.abs(dy) * 1.5 ? 'horizontal' : 'vertical';
+    if (swipeDirection === null && (Math.abs(dx) > 24 || Math.abs(dy) > 24)) {
+      swipeDirection = Math.abs(dx) > Math.abs(dy) * 2.0 ? 'horizontal' : 'vertical';
     }
 
     // 縦スワイプと判定した場合はスライダーを触らない
