@@ -294,7 +294,17 @@ function initKakakuModal() {
   const overlay  = document.getElementById('kakakuOverlay');
   const closeBtn = document.getElementById('kakakuClose');
 
-  ['btnKakaku04b', 'btnKakaku06b', 'btnKakaku14b'].forEach(id => {
+  // モーダル内リンク：閉じてから移動
+  document.querySelectorAll('.kakaku-area').forEach(area => {
+    area.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = area.getAttribute('href');
+      closeKakakuModal();
+      setTimeout(() => { window.open(href, '_blank'); }, 400);
+    });
+  });
+
+  ['btnKakaku04b', 'btnKakaku06b', 'btnKakakuMid', 'btnKakaku14b'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.addEventListener('click', (e) => {
       e.preventDefault();

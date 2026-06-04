@@ -79,6 +79,8 @@ body {
 .sp-20  { margin-bottom: var(--space-20); }
 .sp-40  { margin-bottom: var(--space-40); }
 .sp-60  { margin-bottom: var(--space-60); }
+.sp-80  { margin-bottom: 80px; }
+.sp-80  { margin-bottom: 80px; }
 .sp-100 { margin-bottom: var(--space-100); }
 .sp-130 { margin-bottom: var(--space-130); }
 
@@ -106,7 +108,9 @@ body {
 .meta-gif-wrap.sp-60,  .faq-accordion.sp-60,  .meta-narrow.sp-60  { margin-bottom: var(--space-60); }
 
 .btn-row.sp-100, .meta-link.sp-100, .section-slider.sp-100,
-.meta-gif-wrap.sp-100, .faq-accordion.sp-100, .meta-narrow.sp-100 { margin-bottom: var(--space-100); }
+.meta-gif-wrap.sp-100, .faq-accordion.sp-100, .meta-narrow.sp-80  { margin-bottom: 80px; }
+.sp-80  { margin-bottom: 80px; }
+.sp-100 { margin-bottom: var(--space-100); }
 
 .btn-row.sp-130, .meta-link.sp-130, .section-slider.sp-130,
 .meta-gif-wrap.sp-130, .faq-accordion.sp-130, .meta-narrow.sp-130 { margin-bottom: var(--space-130); }
@@ -116,9 +120,9 @@ body {
 ============================= */
 .meta-15-wrap {
   position: relative;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  width: calc(100% - 24px);
+  margin-left: 12px;
+  margin-right: 12px;
   overflow: visible;
 }
 
@@ -143,11 +147,9 @@ body {
 .meta-05a-narrow,
 .meta-narrow {
   display: block;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 0;
-  padding-right: 0;
+  width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
   box-sizing: border-box;
 }
 
@@ -155,6 +157,20 @@ body {
 .meta-05a-narrow > img {
   width: 100%;
   display: block;
+}
+
+.meta-img-90 {
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.meta-img-90 {
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -221,9 +237,11 @@ body {
 ============================= */
 .btn-row {
   display: flex;
-  width: 100%;
+  width: 90%;
   gap: 12px;
-  padding: 0 12px;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 0;
 }
 
@@ -284,10 +302,8 @@ body {
 }
 
 .faq-q-img {
-  width: 90%;
+  width: 100%;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .faq-question {
@@ -544,7 +560,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 200;
+  z-index: 98;
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -566,7 +582,7 @@ body {
   width: 100%;
   max-width: 640px;
   background: #fff;
-  z-index: 201;
+  z-index: 99;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
   flex-direction: column;
@@ -590,7 +606,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 202;
+  z-index: 101;
   transition: background 0.2s;
 }
 
@@ -653,17 +669,23 @@ body.kakaku-open {
    YouTube動画埋め込み
 ============================= */
 .video-wrap {
-  width: 100%;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
-  padding-top: 51%; /* 16:9 黒帯調整 */
+  padding-top: 51%;
   overflow: hidden;
+  border: 1px solid #000;
+  outline: 1px solid #000;
+  -webkit-box-shadow: 0 0 0 1px #000;
+  box-shadow: 0 0 0 1px #000;
 }
 
 .video-wrap iframe {
   position: absolute;
   top: 0;
-  left: -8%;
-  width: 116%;
+  left: 0;
+  width: 100%;
   height: 100%;
   border: none;
 }
