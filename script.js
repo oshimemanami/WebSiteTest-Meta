@@ -364,11 +364,26 @@ function initFooterNav() {
   else footerImg.addEventListener('load', setupMap);
   window.addEventListener('resize', setupMap);
 
+  // モーダルを閉じてからスクロール
+  function closeAndScroll(targetId) {
+    const isModalOpen = document.getElementById('kakakuSheet') &&
+      document.getElementById('kakakuSheet').classList.contains('is-active');
+    if (isModalOpen) {
+      closeKakakuModal();
+      setTimeout(() => {
+        const target = document.querySelector(targetId);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }, 250);
+    } else {
+      const target = document.querySelector(targetId);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
   document.querySelectorAll('map area[href^="#"]').forEach(area => {
     area.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = document.querySelector(area.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      closeAndScroll(area.getAttribute('href'));
     });
   });
 
@@ -384,8 +399,7 @@ function initFooterNav() {
     else                targetId = null;
     if (targetId) {
       e.preventDefault();
-      const target = document.querySelector(targetId);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      closeAndScroll(targetId);
     }
   });
 }
