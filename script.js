@@ -4,24 +4,24 @@
 
 // スライダーAの画像リスト（jpgからpngへ）
 const sliderAImages = [
-  { src: 'images/slideA-01.png', alt: 'スライドA 1枚目' },
-  { src: 'images/slideA-02.png', alt: 'スライドA 2枚目' },
-  { src: 'images/slideA-03.png', alt: 'スライドA 3枚目' },
-  { src: 'images/slideA-04.png', alt: 'スライドA 4枚目' },
-  { src: 'images/slideA-05.png', alt: 'スライドA 5枚目' },
-  { src: 'images/slideA-06.png', alt: 'スライドA 6枚目' },
-  { src: 'images/slideA-07.png', alt: 'スライドA 7枚目' },
-  { src: 'images/slideA-08.png', alt: 'スライドA 8枚目' },
+  { src: 'images/slideA-01.webp', alt: 'スライドA 1枚目' },
+  { src: 'images/slideA-02.webp', alt: 'スライドA 2枚目' },
+  { src: 'images/slideA-03.webp', alt: 'スライドA 3枚目' },
+  { src: 'images/slideA-04.webp', alt: 'スライドA 4枚目' },
+  { src: 'images/slideA-05.webp', alt: 'スライドA 5枚目' },
+  { src: 'images/slideA-06.webp', alt: 'スライドA 6枚目' },
+  { src: 'images/slideA-07.webp', alt: 'スライドA 7枚目' },
+  { src: 'images/slideA-08.webp', alt: 'スライドA 8枚目' },
 ];
 
 // スライダーBの画像リスト（jpgからpngへ）
 const sliderBImages = [
-  { src: 'images/slideB-01.png', alt: 'スライドB 1枚目' },
-  { src: 'images/slideB-02.png', alt: 'スライドB 2枚目' },
-  { src: 'images/slideB-03.png', alt: 'スライドB 3枚目' },
-  { src: 'images/slideB-04.png', alt: 'スライドB 4枚目' },
-  { src: 'images/slideB-05.png', alt: 'スライドB 5枚目' },
-  { src: 'images/slideB-06.png', alt: 'スライドB 6枚目' },
+  { src: 'images/slideB-01.webp', alt: 'スライドB 1枚目' },
+  { src: 'images/slideB-02.webp', alt: 'スライドB 2枚目' },
+  { src: 'images/slideB-03.webp', alt: 'スライドB 3枚目' },
+  { src: 'images/slideB-04.webp', alt: 'スライドB 4枚目' },
+  { src: 'images/slideB-05.webp', alt: 'スライドB 5枚目' },
+  { src: 'images/slideB-06.webp', alt: 'スライドB 6枚目' },
 ];
 
 /* =============================
